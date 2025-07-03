@@ -32,7 +32,6 @@ const quotes = [
 
 let unusedIndexes = [...Array(quotes.length).keys()];
 
-// دالة لجلب رقم عشوائي من unusedIndexes مع حذف الرقم المختار منها
 function getRandomIndex() {
   if (unusedIndexes.length === 0) {
     unusedIndexes = [...Array(quotes.length).keys()];
@@ -41,7 +40,6 @@ function getRandomIndex() {
   return unusedIndexes.splice(randomPos, 1)[0];
 }
 
-// تحديث عداد الاقتباسات المتبقية مع صياغة عربية صحيحة
 function updateCounter() {
   const counterEl = document.getElementById("counter");
   const left = unusedIndexes.length;
@@ -54,7 +52,6 @@ function updateCounter() {
   }
 }
 
-// عرض الاقتباس والمؤلف مع تأثير اختفاء وظهور
 function showQuote(index = null) {
   const quoteEl = document.getElementById("quoteOutput");
   const authorEl = document.getElementById("authorOutput");
@@ -78,7 +75,6 @@ function showQuote(index = null) {
   }, 400);
 }
 
-// نسخ الاقتباس مع عرض رسالة toast بدون alert
 function copyQuote() {
   const quote = document.getElementById("quoteOutput").textContent;
   const author = document.getElementById("authorOutput").textContent;
@@ -89,7 +85,6 @@ function copyQuote() {
   });
 }
 
-// إعادة تعيين الاقتباسات وحذف آخر اقتباس محفوظ
 function resetQuotes() {
   unusedIndexes = [...Array(quotes.length).keys()];
   localStorage.removeItem("lastQuoteIndex");
@@ -98,7 +93,6 @@ function resetQuotes() {
   document.getElementById("counter").textContent = "";
 }
 
-// دالة عرض رسالة التنبيه (toast)
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
@@ -108,7 +102,6 @@ function showToast(message) {
   }, 2500);
 }
 
-// عند تحميل الصفحة استرجاع آخر اقتباس وإزالته من unusedIndexes لتحديث العداد
 window.onload = function () {
   const savedIndex = localStorage.getItem("lastQuoteIndex");
   if (savedIndex !== null) {
@@ -118,7 +111,6 @@ window.onload = function () {
   }
 };
 
-// ربط أزرار التحكم
 document.getElementById("newQuoteBtn").addEventListener("click", () => showQuote());
 document.getElementById("copyQuoteBtn").addEventListener("click", copyQuote);
 document.getElementById("resetBtn").addEventListener("click", resetQuotes);
