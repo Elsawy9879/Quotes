@@ -1,87 +1,96 @@
-   body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f4f8;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
-      margin: 0;
-    }
+/* --- تصميم عام للصفحة --- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  margin: 0;
+}
 
-    .container {
-      background: #fff;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-    }
+/* الحاوية الرئيسية */
+.container {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
 
-    #quoteOutput {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: #0b3d91;
-      min-height: 80px;
-      opacity: 1;
-      transition: opacity 0.4s ease;
-    }
+/* نص الاقتباس */
+#quoteOutput {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #0b3d91;
+  min-height: 80px; /* يمنع تغير حجم الصندوق عند التغيير */
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
 
-    #authorOutput {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 20px;
-      font-style: italic;
-      opacity: 1;
-      transition: opacity 0.4s ease;
-    }
+/* مؤلف الاقتباس */
+#authorOutput {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 20px;
+  font-style: italic;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
 
-    #counter {
-      margin-bottom: 20px;
-      font-size: 1rem;
-      color: #888;
-    }
+/* عداد الاقتباسات المتبقية */
+#counter {
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #888;
+}
 
-    button {
-      cursor: pointer;
-      background-color: #0b3d91;
-      border: none;
-      color: white;
-      padding: 12px 20px;
-      font-size: 1rem;
-      border-radius: 8px;
-      margin: 0 5px;
-      transition: background-color 0.3s ease;
-    }
+/* تصميم الأزرار */
+button {
+  cursor: pointer;
+  background-color: #0b3d91;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
 
-    button:hover {
-      background-color: #084177;
-    }
+button:hover {
+  background-color: #084177;
+}
 
-    /* Toast notification */
-    #toast {
-      visibility: hidden;
-      min-width: 220px;
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      border-radius: 6px;
-      padding: 14px;
-      position: fixed;
-      z-index: 1;
-      right: 20px;
-      bottom: 30px;
-      font-size: 1rem;
-      opacity: 0;
-      transition: opacity 0.5s ease, visibility 0.5s;
-    }
+/* --- تصميم رسالة التنبيه (toast) --- */
+#toast {
+  visibility: hidden;
+  min-width: 220px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 14px;
+  position: fixed;
+  z-index: 9999;
+  right: 20px;
+  bottom: 30px;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.5s ease, visibility 0.5s;
+  pointer-events: none; /* يمنع التفاعل مع العنصر أثناء عدم ظهوره */
+}
 
-    #toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
+/* حالة ظهور الرسالة */
+#toast.show {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto;
+}
