@@ -32,7 +32,7 @@ const quotes = [
 
 let unusedIndexes = [...Array(quotes.length).keys()];
 
-// جلب مؤشر عشوائي بدون تكرار، ويُعيد تعبئة إذا انتهت الاقتباسات
+// دالة لجلب رقم عشوائي من unusedIndexes مع حذف الرقم المختار منها
 function getRandomIndex() {
   if (unusedIndexes.length === 0) {
     unusedIndexes = [...Array(quotes.length).keys()];
@@ -54,12 +54,11 @@ function updateCounter() {
   }
 }
 
-// عرض اقتباس، إما بالرقم المحدد أو عشوائي
+// عرض الاقتباس والمؤلف مع تأثير اختفاء وظهور
 function showQuote(index = null) {
   const quoteEl = document.getElementById("quoteOutput");
   const authorEl = document.getElementById("authorOutput");
 
-  // تأثير اختفاء تدريجي
   quoteEl.style.opacity = 0;
   authorEl.style.opacity = 0;
 
@@ -74,13 +73,12 @@ function showQuote(index = null) {
 
     localStorage.setItem("lastQuoteIndex", i);
 
-    // تأثير ظهور تدريجي
     quoteEl.style.opacity = 1;
     authorEl.style.opacity = 1;
   }, 400);
 }
 
-// نسخ الاقتباس مع عرض رسالة بدون alert
+// نسخ الاقتباس مع عرض رسالة toast بدون alert
 function copyQuote() {
   const quote = document.getElementById("quoteOutput").textContent;
   const author = document.getElementById("authorOutput").textContent;
@@ -91,7 +89,7 @@ function copyQuote() {
   });
 }
 
-// إعادة تعيين الاقتباسات وحذف حفظ آخر اقتباس
+// إعادة تعيين الاقتباسات وحذف آخر اقتباس محفوظ
 function resetQuotes() {
   unusedIndexes = [...Array(quotes.length).keys()];
   localStorage.removeItem("lastQuoteIndex");
@@ -100,7 +98,7 @@ function resetQuotes() {
   document.getElementById("counter").textContent = "";
 }
 
-// عرض رسالة منبثقة قصيرة (toast)
+// دالة عرض رسالة التنبيه (toast)
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
@@ -110,7 +108,7 @@ function showToast(message) {
   }, 2500);
 }
 
-// عند تحميل الصفحة: استرجاع آخر اقتباس وحذفه من unusedIndexes لتحديث العداد
+// عند تحميل الصفحة استرجاع آخر اقتباس وإزالته من unusedIndexes لتحديث العداد
 window.onload = function () {
   const savedIndex = localStorage.getItem("lastQuoteIndex");
   if (savedIndex !== null) {
@@ -120,7 +118,7 @@ window.onload = function () {
   }
 };
 
-// ربط الأزرار بالوظائف
+// ربط أزرار التحكم
 document.getElementById("newQuoteBtn").addEventListener("click", () => showQuote());
 document.getElementById("copyQuoteBtn").addEventListener("click", copyQuote);
 document.getElementById("resetBtn").addEventListener("click", resetQuotes);
