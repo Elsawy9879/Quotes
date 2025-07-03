@@ -27,12 +27,12 @@ const quotes = [
   { quote: "“Dream big and dare to fail.”", author: "― Norman Vaughan" },
   { quote: "“Life is 10% what happens and 90% how you react.”", author: "― Swindoll" },
   { quote: "“The best way out is always through.”", author: "― Robert Frost" },
-  { quote: "“You must be the change you wish to see in the world.”", author: "― Gandhi" },
-  { quote: "“I've not failed. I've just found 10,000 ways that won't work.”", author: "― Thomas Edison" }
+  { quote: "“You must be the change you wish to see in the world.”", author: "― Gandhi" }
 ];
 
 let unusedIndexes = [...Array(quotes.length).keys()];
 
+// جلب مؤشر عشوائي بدون تكرار، ويُعيد تعبئة إذا انتهت الاقتباسات
 function getRandomIndex() {
   if (unusedIndexes.length === 0) {
     unusedIndexes = [...Array(quotes.length).keys()];
@@ -41,11 +41,25 @@ function getRandomIndex() {
   return unusedIndexes.splice(randomPos, 1)[0];
 }
 
+// تحديث عداد الاقتباسات المتبقية مع صياغة عربية صحيحة
+function updateCounter() {
+  const counterEl = document.getElementById("counter");
+  const left = unusedIndexes.length;
+  if (left === 0) {
+    counterEl.textContent = `انتهت الاقتباسات، سيتم إعادة التعيين تلقائياً.`;
+  } else if (left === 1) {
+    counterEl.textContent = `تبقى اقتباس واحد من ${quotes.length}`;
+  } else {
+    counterEl.textContent = `تبقى ${left} اقتباسات من ${quotes.length}`;
+  }
+}
+
+// عرض اقتباس، إما بالرقم المحدد أو عشوائي
 function showQuote(index = null) {
   const quoteEl = document.getElementById("quoteOutput");
   const authorEl = document.getElementById("authorOutput");
-  const counterEl = document.getElementById("counter");
 
+  // تأثير اختفاء تدريجي
   quoteEl.style.opacity = 0;
   authorEl.style.opacity = 0;
 
@@ -55,23 +69,29 @@ function showQuote(index = null) {
 
     quoteEl.textContent = q.quote;
     authorEl.textContent = q.author;
-    counterEl.textContent = `تبقّى ${unusedIndexes.length} من ${quotes.length} اقتباس`;
+
+    updateCounter();
 
     localStorage.setItem("lastQuoteIndex", i);
 
+    // تأثير ظهور تدريجي
     quoteEl.style.opacity = 1;
     authorEl.style.opacity = 1;
-  }, 300);
+  }, 400);
 }
 
+// نسخ الاقتباس مع عرض رسالة بدون alert
 function copyQuote() {
   const quote = document.getElementById("quoteOutput").textContent;
   const author = document.getElementById("authorOutput").textContent;
   navigator.clipboard.writeText(`${quote}\n${author}`).then(() => {
-    alert("✅ تم نسخ الاقتباس!");
+    showToast("✅ تم نسخ الاقتباس!");
+  }).catch(() => {
+    showToast("⚠️ حدث خطأ أثناء النسخ");
   });
 }
 
+// إعادة تعيين الاقتباسات وحذف حفظ آخر اقتباس
 function resetQuotes() {
   unusedIndexes = [...Array(quotes.length).keys()];
   localStorage.removeItem("lastQuoteIndex");
@@ -80,10 +100,27 @@ function resetQuotes() {
   document.getElementById("counter").textContent = "";
 }
 
-// عرض آخر اقتباس عند فتح الصفحة
+// عرض رسالة منبثقة قصيرة (toast)
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
+
+// عند تحميل الصفحة: استرجاع آخر اقتباس وحذفه من unusedIndexes لتحديث العداد
 window.onload = function () {
   const savedIndex = localStorage.getItem("lastQuoteIndex");
   if (savedIndex !== null) {
-    showQuote(parseInt(savedIndex));
+    const savedI = parseInt(savedIndex);
+    unusedIndexes = unusedIndexes.filter(i => i !== savedI);
+    showQuote(savedI);
   }
 };
+
+// ربط الأزرار بالوظائف
+document.getElementById("newQuoteBtn").addEventListener("click", () => showQuote());
+document.getElementById("copyQuoteBtn").addEventListener("click", copyQuote);
+document.getElementById("resetBtn").addEventListener("click", resetQuotes);
